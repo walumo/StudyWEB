@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace WebStudyDiary.Models
+namespace StudyWEB.Models
 {
     public partial class StudyDiaryContext : DbContext
     {

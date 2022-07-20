@@ -12,5 +12,15 @@ namespace StudyWEB.Controllers
         {
             return View();
         }
+
+        public IActionResult AddTopic()
+        {
+            return View();
+        }
+
+        public IActionResult ManageTopics()
+        {
+            return View();
+        }
     }
 }
