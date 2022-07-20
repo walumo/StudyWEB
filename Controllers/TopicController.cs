@@ -12,16 +12,12 @@ namespace StudyWEB.Controllers
     {
         public IActionResult Index()
         {
-            List<Topic> topics;
-            List<Models.Task> tasks;
             using(StudyDiaryContext db = new StudyDiaryContext())
             {
-                topics = db.Topics.Select(x => x).ToList();
-                tasks = db.Tasks.Select(x => x).ToList();
+                ViewData["topics"] = db.Topics.Select(x => x).ToList();
+                ViewData["tasks"] = db.Tasks.Select(x => x).ToList();
+                ViewData["notes"] = db.Notes.Select(x => x).ToList();
             }
-
-            ViewData["topics"] = topics;
-            ViewData["tasks"] = tasks;
             return View();
         }
 
