@@ -40,7 +40,10 @@ namespace StudyWEB.Controllers
                 db.Topics.Add(topic);
                 await db.SaveChangesAsync();
             }
-            return View("../Home/Index");
+
+            ViewData["topic"] = topic;
+
+            return View("TopicSaved");
         }
     }
 }
