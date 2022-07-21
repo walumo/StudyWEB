@@ -14,13 +14,14 @@ namespace StudyWEB.Controllers
         StudyDiaryContext db = new StudyDiaryContext();
         public async Task<IActionResult> Index()
         {
+            ViewModel data = new ViewModel();
             await using(db)
             {
-                ViewData["topics"] = db.Topics.Select(x => x).ToList();
-                ViewData["tasks"] = db.Tasks.Select(x => x).ToList();
-                ViewData["notes"] = db.Notes.Select(x => x).ToList();
+                data.Topics = db.Topics.Select(x => x).ToList();
+                data.Tasks = db.Tasks.Select(x => x).ToList();
+                data.Notes = db.Notes.Select(x => x).ToList();
             }
-            return View();
+            return View(data);
         }
 
         public IActionResult AddTopic()

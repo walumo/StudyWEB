@@ -1,23 +1,19 @@
-﻿
+﻿@model StudyWEB.Models.ViewModel;
+
 @{
     ViewData["Title"] = "Topics";
-    List<StudyWEB.Models.Task> tasks = (List<StudyWEB.Models.Task>)ViewData["tasks"];
-    List<Topic> topics = (List<Topic>)ViewData["topics"];
-    List<Note> notes = (List<Note>)ViewData["notes"];
 }
 
 <!--Accordion to be populated with topics-->
 <div class="text-center">
     <div class="accordion" id="topicsAccordion">
-        @foreach (Topic topic in topics)
+        @foreach (Topic topic in Model.Topics)
         {
             string gradient = "blueGradient";
             if (topic.TopicCompletionDate.CompareTo(DateTime.Now) > 0) gradient = "blueGradient";
             if (topic.TopicCompletionDate.AddHours(-topic.TopicEstimatedTimeToMaster).CompareTo(DateTime.Now) <= 0) gradient = "redGradient";
             if (topic.TopicInProgress) gradient = "greenGradient";
 
-            int index = topics.IndexOf(topic);
-            var taskBuffer = tasks.Where(x => x.TopicId == topic.TopicId).ToList();
             string details = "detailsOf" + topic.TopicId;
             <div class="card z-depth-0 bordered">
                 <div class="card-header @gradient" id="@topic.TopicId">
@@ -36,17 +32,16 @@
                             <dd>@topic.TopicCompletionDate.ToLocalTime()</dd>
                         
                         
-                            @foreach (StudyWEB.Models.Task task in topics[index].Tasks)
+                            @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
                             {
                                 <dt>@task.TaskTitle</dt>
 
-                                @foreach (Note note in notes.Where(x => x.TaskId == task.TaskId))
+                                @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                 {
                                     <dd>@note.Note1</dd>
                                 }
                             }
                         </dl>
-
                     </div>
                 </div>
             </div>
