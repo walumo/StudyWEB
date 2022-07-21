@@ -100,5 +100,27 @@ namespace StudyWEB.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            ViewModel data = new ViewModel();
+            await using (db)
+            {
+                List<int> topicIndex = new List<int>();
+                List<int> taskIndex = new List<int>();
+                
+                data.Topics = db.Topics.Where(x => x.TopicTitle.Contains(searchTerm)).ToList();
+                
+                data.Topics.ForEach(x => topicIndex.Add(x.TopicId));
+
+                data.Tasks = db.Tasks.Select(x => x).Where(x => topicIndex.Contains(x.TopicId)).ToList();
+
+                data.Tasks.ForEach(x => taskIndex.Add(x.TaskId));
+
+                data.Notes = db.Notes.Select(x => x).Where(x => taskIndex.Contains(x.TaskId)).ToList();
+            
+            }
+            return View("SearchResults", data);
+        }
     }
 }
