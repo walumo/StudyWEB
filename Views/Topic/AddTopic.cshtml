@@ -1,10 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    ViewData["Title"] = "Add topics";
-}
-<div class="card">
-    <h1 class="display-4">Enter topics here:</h1>
-    <p>Under construction!</p>
+﻿@model StudyWEB.Models.Topic
+
+<h4>Add new topic:</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTopic">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TopicTitle" class="control-label">Title</label>
+                <input asp-for="TopicTitle" class="form-control" />
+                <span asp-validation-for="TopicTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicDescription" class="control-label">Description</label>
+                <textarea rows="3" asp-for="TopicDescription" class="form-control"></textarea>
+                <span asp-validation-for="TopicDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicEstimatedTimeToMaster" class="control-label">Estimated time in hours</label>
+                <input type="number" asp-for="TopicEstimatedTimeToMaster" class="form-control" />
+                <span asp-validation-for="TopicEstimatedTimeToMaster" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicSource" class="control-label">Source(s)</label>
+                <input asp-for="TopicSource" class="form-control" />
+                <span asp-validation-for="TopicSource" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TopicInProgress" /><p>in progress?</p>
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicCompletionDate" class="control-label">Deadline for completion</label>
+                <input asp-for="TopicCompletionDate" class="form-control" />
+                <span asp-validation-for="TopicCompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" asp-area="" asp-controller="Topic" asp-action="CreateTopic"/>
+            </div>
+        </form>
+    </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

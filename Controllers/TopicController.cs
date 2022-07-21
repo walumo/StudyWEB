@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudyDiary;
 using StudyWEB.Models;
 using System;
@@ -10,9 +11,10 @@ namespace StudyWEB.Controllers
 {
     public class TopicController : Controller
     {
-        public IActionResult Index()
+        StudyDiaryContext db = new StudyDiaryContext();
+        public async Task<IActionResult> Index()
         {
-            using(StudyDiaryContext db = new StudyDiaryContext())
+            await using(db)
             {
                 ViewData["topics"] = db.Topics.Select(x => x).ToList();
                 ViewData["tasks"] = db.Tasks.Select(x => x).ToList();
@@ -29,6 +31,16 @@ namespace StudyWEB.Controllers
         public IActionResult ManageTopics()
         {
             return View();
+        }
+
+        public async Task<IActionResult> CreateTopic(Topic topic)
+        {
+            using (db)
+            {
+                db.Topics.Add(topic);
+                await db.SaveChangesAsync();
+            }
+            return View("../Home/Index");
         }
     }
 }
