@@ -94,6 +94,7 @@ namespace StudyWEB.Models
                 entity.Property(e => e.TopicTitle)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
             });
 
             OnModelCreatingPartial(modelBuilder);

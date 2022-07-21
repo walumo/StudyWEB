@@ -100,9 +100,5 @@ namespace StudyWEB.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        
-
-        
     }
 }
