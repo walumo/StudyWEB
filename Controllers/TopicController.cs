@@ -54,5 +54,22 @@ namespace StudyWEB.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> MarkAsDone(int topicId)
+        {
+            using (db)
+            {
+                var topic = db.Topics.Where(x => x.TopicId == topicId).FirstOrDefault();
+                if (!topic.TopicIsDone)
+                {
+                    topic.TopicIsDone = true;
+                    db.Topics.Update(topic);
+                }
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        
     }
 }

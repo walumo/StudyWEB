@@ -48,11 +48,11 @@
                             </div>
 
                             <div class="column">
-                                <button class="btn btn-secondary btn-primary" type="submit">Done</button>
+                                <a class="btn btn-secondary btn-primary" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="MarkAsDone">Done</a>
                             </div>
 
                             <div class="column">
-                                <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                                <a class="btn btn-secondary btn-danger" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
                             </div>
                         </div>
 
