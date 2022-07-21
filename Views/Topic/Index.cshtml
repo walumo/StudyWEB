@@ -13,6 +13,8 @@
             if (topic.TopicCompletionDate.CompareTo(DateTime.Now) > 0) gradient = "blueGradient";
             if (topic.TopicCompletionDate.AddHours(-topic.TopicEstimatedTimeToMaster).CompareTo(DateTime.Now) <= 0) gradient = "redGradient";
             if (topic.TopicInProgress) gradient = "greenGradient";
+            if (topic.TopicIsDone == true) gradient = "bg-dark";
+
 
             string details = "detailsOf" + topic.TopicId;
             var data = new Dictionary<string, string>() { { "Topicid", topic.TopicId.ToString() } };
@@ -31,43 +33,56 @@
 
                 <div id="@details" class="collapse" aria-labelledby="@topic.TopicId"
                      data-parent="#topicsAccordion">
-                    <!--Controls for topics-->
-                    <div class="row justify-content-around m-1">
-                        
-                        <div class="column">
-                            <button class="btn btn-secondary btn-primary" type="submit">Start</button>
+
+                    @if (topic.TopicIsDone == false)
+                    {
+                        <!--Controls for topics-->
+                        <div class="row justify-content-around m-1">
+
+                            <div class="column">
+                                <button class="btn btn-secondary btn-success" type="submit">Start</button>
+                            </div>
+
+                            <div class="column">
+                                <button class="btn btn-secondary btn-warning" type="submit">Pause</button>
+                            </div>
+
+                            <div class="column">
+                                <button class="btn btn-secondary btn-primary" type="submit">Done</button>
+                            </div>
+
+                            <div class="column">
+                                <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                            </div>
                         </div>
-                        
-                        <div class="column">
-                            <button class="btn btn-secondary btn-warning" type="submit">Pause</button>
-                        </div>
-                        
-                        <div class="column">
-                            <button class="btn btn-secondary btn-success" type="submit">Done</button>
-                        </div>
-                        
-                        <div class="column">
-                            <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body">
-                        <dl>
-                            <dt>Deadline:</dt>
-                            <dd>@topic.TopicCompletionDate.ToLocalTime()</dd>
 
 
-                            @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
-                            {
-                                <dt>@task.TaskTitle</dt>
+                        <div class="card-body">
+                            <dl>
+                                <dt>Deadline:</dt>
+                                <dd>@topic.TopicCompletionDate.ToLocalTime()</dd>
 
-                                @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
+
+                                @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
                                 {
-                                    <dd>@note.Note1</dd>
+                                    <dt>@task.TaskTitle</dt>
+
+                                    @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
+                                    {
+                                        <dd>@note.Note1</dd>
+                                    }
                                 }
-                            }
-                        </dl>
-                    </div>
+                            </dl>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row justify-content-around m-1">
+                            <div class="column">
+                                <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
            }

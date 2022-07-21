@@ -20,6 +20,7 @@ namespace StudyWEB.Models
         public string TopicSource { get; set; }
         public DateTime? TopicStartLearningDate { get; set; }
         public bool TopicInProgress { get; set; }
+        public bool TopicIsDone { get; set; }
         public DateTime TopicCompletionDate { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }

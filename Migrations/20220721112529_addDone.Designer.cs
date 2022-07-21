@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudyWEB.Models;
 
 namespace StudyWEB.Migrations
 {
     [DbContext(typeof(StudyDiaryContext))]
-    partial class StudyDiaryContextModelSnapshot : ModelSnapshot
+    [Migration("20220721112529_addDone")]
+    partial class addDone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
