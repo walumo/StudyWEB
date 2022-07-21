@@ -70,6 +70,39 @@ namespace StudyWEB.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Pause(int topicId)
+        {
+            using (db)
+            {
+                var topic = db.Topics.Where(x => x.TopicId == topicId).FirstOrDefault();
+                if (topic.TopicInProgress)
+                {
+                    topic.TopicInProgress = false;
+                    db.Topics.Update(topic);
+                }
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Start(int topicId)
+        {
+            using (db)
+            {
+                var topic = db.Topics.Where(x => x.TopicId == topicId).FirstOrDefault();
+                if (!topic.TopicIsDone && !topic.TopicInProgress)
+                {
+                    topic.TopicInProgress = true;
+                    topic.TopicStartLearningDate = DateTime.Now;
+                    db.Topics.Update(topic);
+                }
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        
+
         
     }
 }

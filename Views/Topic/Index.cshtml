@@ -13,6 +13,7 @@
             if (topic.TopicCompletionDate.CompareTo(DateTime.Now) > 0) gradient = "blueGradient";
             if (topic.TopicCompletionDate.AddHours(-topic.TopicEstimatedTimeToMaster).CompareTo(DateTime.Now) <= 0) gradient = "redGradient";
             if (topic.TopicInProgress) gradient = "greenGradient";
+            if (!topic.TopicInProgress && topic.TopicStartLearningDate != null) gradient = "bg-warning";
             if (topic.TopicIsDone == true) gradient = "bg-dark";
 
 
@@ -40,15 +41,16 @@
                         <div class="row justify-content-around m-1">
 
                             <div class="column">
-                                <button class="btn btn-secondary btn-success" type="submit">Start</button>
+                                <a class="btn btn-secondary btn-success" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Start">Start</a>
                             </div>
 
                             <div class="column">
-                                <button class="btn btn-secondary btn-warning" type="submit">Pause</button>
+                                <a class="btn btn-secondary btn-warning" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Pause">Pause</a>
+
                             </div>
 
                             <div class="column">
-                                <a class="btn btn-secondary btn-primary" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="MarkAsDone">Done</a>
+                                <a class="btn btn-secondary btn-dark" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="MarkAsDone">Done</a>
                             </div>
 
                             <div class="column">
