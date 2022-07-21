@@ -46,5 +46,15 @@ namespace StudyWEB.Controllers
 
             return View("TopicSaved");
         }
+
+        public async Task<IActionResult> Delete(int topicId)
+        {
+            using (db)
+            {
+                db.Topics.Remove(db.Topics.Where(x => x.TopicId == topicId).FirstOrDefault());
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
