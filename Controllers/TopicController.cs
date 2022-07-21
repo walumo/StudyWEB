@@ -42,9 +42,7 @@ namespace StudyWEB.Controllers
                 await db.SaveChangesAsync();
             }
 
-            ViewData["topic"] = topic;
-
-            return View("TopicSaved");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int topicId)
