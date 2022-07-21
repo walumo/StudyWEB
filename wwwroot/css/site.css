@@ -102,3 +102,11 @@ body {
 .yellowGradient {
     background-image: linear-gradient(66deg, rgb(39, 17, 99), yellow);
 }
+
+
+.splash {
+    width: 90vw;
+    height: auto;
+    justify-self: center;
+}
+
