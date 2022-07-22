@@ -25,15 +25,6 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Topic" asp-action="AddTopic">Add topics</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Topic" asp-action="ManageTopics">Manage topics</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Manage tasks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Clean database</a>
-                        </li>
-                        <li class="nav-item">
                             <form asp-controller="Topic" asp-action="Search" method="get">
                                 <input type="text" name="searchTerm" placeholder="Search topics..." />
                                 <input type="submit" value="Search" class="btn-secondary"/> 
