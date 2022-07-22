@@ -62,23 +62,37 @@
                             </div>
                         </div>
 
+                        @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
+                        {
+                            string taskDetails = "taskDetailsOf" + task.TaskId;
 
-                        <div class="card-body">
-                            <dl>
-                                <dt>Deadline:</dt>
-                                <dd>@topic.TopicCompletionDate.ToLocalTime()</dd>
+                            <div class="accordion" id="taskAccordion">
+                                <div class="card z-depth-0 bordered text-wrap bg-light">
+                                    <div class="card-header" id="@task.TaskId">
+                                        <h5 class="mb-0">
+                                            <button class="btn" type="button" data-toggle="collapse" data-target="#@taskDetails" aria-expanded="true" aria-controls="@taskDetails">
+                                                <h4 class="text-dark">@task.TaskTitle</h4>
+                                            </button>
+                                        </h5>
+                                    </div>
+                                </div>
 
-
-                                @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
-                                {
-                                    <dt>@task.TaskTitle</dt>
-
+                                <div id="@taskDetails" class="collapse" aria-labelledby="@task.TaskId"
+                                     data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                     {
-                                        <dd>@note.Note1</dd>
+                                        <p>@note.Note1</p>
                                     }
-                                }
-                            </dl>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <h5>Deadline:</h5>
+                                <p>&nbsp;@topic.TopicCompletionDate</p>
+                            </div>
+
                         </div>
                     }
                     else
@@ -91,7 +105,7 @@
                     }
                 </div>
             </div>
-        }
+         }
     </div>
 </div>
 
