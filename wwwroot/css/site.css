@@ -109,3 +109,8 @@ body {
     height: auto;
     justify-self: center;
 }
+
+.myLogo {
+    width: 3em;
+    height: auto;
+}
