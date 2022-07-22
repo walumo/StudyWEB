@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,7 +14,12 @@ namespace StudyWEB.Models
         }
 
         public int TaskId { get; set; }
+        
+        [Required]
+        [StringLength(64)]
         public string TaskTitle { get; set; }
+        
+        [StringLength(256)]
         public string TaskDescription { get; set; }
         public int? TaskPriority { get; set; }
         public DateTime? TaskDeadline { get; set; }

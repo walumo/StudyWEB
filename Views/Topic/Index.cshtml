@@ -20,7 +20,7 @@
             string details = "detailsOf" + topic.TopicId;
             var data = new Dictionary<string, string>() { { "Topicid", topic.TopicId.ToString() } };
 
-            <div class="card z-depth-0 bordered">
+            <div class="card z-depth-0 bordered text-wrap">
                 <div class="card-header @gradient" id="@topic.TopicId">
                     <h5 class="mb-0">
                         <button class="btn" type="button" data-toggle="collapse" data-target="#@details" aria-expanded="true" aria-controls="@details">
