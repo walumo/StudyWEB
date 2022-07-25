@@ -10,5 +10,8 @@ namespace StudyWEB.Models
         public List<Topic> Topics { get; set; }
         public List<Task> Tasks { get; set; }
         public List<Note> Notes { get; set; }
+        public Topic Topic { get; set; }
+        public Task Task { get; set; }
+        public Note Note { get; set; }
     }
 }

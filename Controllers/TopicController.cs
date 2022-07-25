@@ -131,6 +131,23 @@ namespace StudyWEB.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+        } 
+        
+        public async Task<IActionResult> EditTopicPartial(ViewModel vm)
+        {
+
+            using (db)
+            {
+                var topic = db.Topics.Where(x => x.TopicId == vm.Topic.TopicId).FirstOrDefault();
+
+                if (!String.IsNullOrWhiteSpace(vm.Topic.TopicTitle))
+                    topic.TopicTitle = vm.Topic.TopicTitle;
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
         }
+
+
     }
 }

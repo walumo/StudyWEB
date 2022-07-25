@@ -1,0 +1,46 @@
+﻿@model StudyWEB.Models.ViewModel;
+
+<h4>Topic</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditTopicPartial">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Topic.TopicId" />
+            <div class="form-group">
+                <label asp-for="Topic.TopicTitle" class="control-label">Title</label>
+                <input asp-for="Topic.TopicTitle" class="form-control" />
+                <span asp-validation-for="Topic.TopicTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.TopicDescription" class="control-label">Description</label>
+                <input asp-for="Topic.TopicDescription" class="form-control" />
+                <span asp-validation-for="Topic.TopicDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.TopicEstimatedTimeToMaster" class="control-label">Estimated time (hours)</label>
+                <input asp-for="Topic.TopicEstimatedTimeToMaster" class="form-control" />
+                <span asp-validation-for="Topic.TopicEstimatedTimeToMaster" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.TopicSource" class="control-label">Source</label>
+                <input asp-for="Topic.TopicSource" class="form-control" />
+                <span asp-validation-for="Topic.TopicSource" class="text-danger"></span>
+            </div>
+         
+            <div class="form-group">
+                <label asp-for="Topic.TopicCompletionDate" class="control-label">Deadline</label>
+                <input asp-for="Topic.TopicCompletionDate" class="form-control" />
+                <span asp-validation-for="Topic.TopicCompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
