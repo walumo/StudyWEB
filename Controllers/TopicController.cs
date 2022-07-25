@@ -122,5 +122,15 @@ namespace StudyWEB.Controllers
             }
             return View("SearchResults", data);
         }
+
+        public async Task<IActionResult> RemoveTask(int taskId)
+        {
+            using (db)
+            {
+                db.Tasks.Remove(db.Tasks.Where(x => x.TaskId == taskId).FirstOrDefault());
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
