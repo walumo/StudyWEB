@@ -5,6 +5,7 @@ using StudyWEB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace StudyWEB.Controllers
@@ -38,6 +39,8 @@ namespace StudyWEB.Controllers
         {
             using (db)
             {
+                if(topic.TopicCompletionDate.CompareTo(DateTime.Now.AddHours(topic.TopicEstimatedTimeToMaster)) < 0)
+                    topic.TopicCompletionDate = DateTime.Now.AddHours(topic.TopicEstimatedTimeToMaster+1);
                 db.Topics.Add(topic);
                 await db.SaveChangesAsync();
             }
@@ -131,6 +134,31 @@ namespace StudyWEB.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+        } 
+        
+        public async Task<IActionResult> EditTopicPartial(ViewModel vm)
+        {
+
+            using (db)
+            {
+                var topic = db.Topics.Where(x => x.TopicId == vm.Topic.TopicId).FirstOrDefault();
+
+                if (!String.IsNullOrWhiteSpace(vm.Topic.TopicTitle))
+                    topic.TopicTitle = vm.Topic.TopicTitle;
+                if (!String.IsNullOrWhiteSpace(vm.Topic.TopicDescription))
+                    topic.TopicDescription = vm.Topic.TopicDescription;
+                if (!String.IsNullOrWhiteSpace(vm.Topic.TopicEstimatedTimeToMaster.ToString()) && double.TryParse(vm.Topic.TopicEstimatedTimeToMaster.ToString(), out double result))
+                    topic.TopicEstimatedTimeToMaster = vm.Topic.TopicEstimatedTimeToMaster;
+                if (!String.IsNullOrWhiteSpace(vm.Topic.TopicSource))
+                    topic.TopicSource = vm.Topic.TopicSource;
+                if (vm.Topic.TopicCompletionDate != null && vm.Topic.TopicCompletionDate != topic.TopicCompletionDate && vm.Topic.TopicCompletionDate.CompareTo(DateTime.Now.AddHours(topic.TopicEstimatedTimeToMaster)) > 0)
+                    topic.TopicCompletionDate = vm.Topic.TopicCompletionDate;
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
         }
+
+
     }
 }
