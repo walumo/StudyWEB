@@ -16,17 +16,19 @@
             if (!topic.TopicInProgress && topic.TopicStartLearningDate != null) gradient = "bg-warning";
             if (topic.TopicIsDone == true) gradient = "bg-dark";
 
-
+            <!--ID attribute generation for topics-->
             string details = "detailsOf" + topic.TopicId;
 
+            <!--Route data for action buttons in topic menu, maybe obsolete-->
             var data = new Dictionary<string, string>() { { "Topicid", topic.TopicId.ToString() } };
 
+            <!--ID attribute generation for Edit topic modal-->
             var modalId = "modalForTopic" + topic.TopicId.ToString();
 
             <div class="card z-depth-0 bordered">
                 <div class="card-header @gradient" id="@topic.TopicId">
                     
-                    <!--Edit icon for modal-->
+                    <!--Topic title, description and Edit-icon-link for modal-->
                     <div class="row justify-content-between flex-nowrap">
                         <div class="column flex-shrink-1">
                             <h5 class="mb-0">
@@ -43,7 +45,7 @@
                             </button>
                         </div>
 
-                        <!-- Modal -->
+                        <!-- Modal Code-->
                         <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -54,8 +56,8 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <!--START PASTE-->
-
+    
+                                        <!--Form Start-->
                                         <h4>Topic</h4>
                                         <hr />
                                         <div class="row">
@@ -99,7 +101,8 @@
                                         <div>
                                             <a asp-action="Index">Back to List</a>
                                         </div>
-                                        <!--END PASTE-->
+                                        <!--Form End-->
+
                                     </div>
                                     <div class="modal-footer">
                                     </div>
@@ -107,8 +110,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!--Show title and description in accordion header-->
 
                 </div>
 
@@ -119,7 +120,7 @@
 
                     @if (topic.TopicIsDone == false)
                     {
-                        <!--Controls for topics-->
+                        <!--Controls for topics when topic opened-->
                         <div class="row justify-content-around m-1">
 
                             <div class="column">
@@ -139,6 +140,7 @@
                             </div>
                         </div>
 
+                        <!--Render tasks, if any-->
                         @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
                         {
                             string taskDetails = "taskDetailsOf" + task.TaskId;
@@ -157,20 +159,27 @@
                                     </div>
                                 </div>
                                 
-                                <div id="@taskDetails" class="collapse" aria-labelledby="@task.TaskId"
+                                <div id="@taskDetails" class="collapse p-2" aria-labelledby="@task.TaskId"
                                      data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                     {
-                                        <p>@note.Note1</p>
+                                        <a class="text-light badge badge-info increase-size">@note.Note1</a>
+                                        @*<p>@note.Note1</p>*@
                                     }
                                 </div>
                             </div>
                          }
 
                     <div class="card-body">
-                        <div class="row justify-content-center">
-                            <h5>Deadline:</h5>
-                            <p>&nbsp;@topic.TopicCompletionDate</p>
+                        <div class="row justify-content-between m-1">
+                            <div class="column">
+                                <p><b>Deadline:</b>&nbsp;@topic.TopicCompletionDate</p>
+                            </div>
+                            <div class="column">
+                                <a>
+                                    <i class="align-self-center text-right fa-solid fa-add fa-lg"></i>
+                                </a>
+                            </div>
                         </div>
 
                     </div>
