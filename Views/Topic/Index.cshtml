@@ -136,7 +136,7 @@
                             </div>
 
                             <div class="column">
-                                <a class="btn btn-secondary btn-danger" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                                <a class="btn btn-secondary btn-danger" onclick="ConfirmTopicDelete(@topic.TopicId)" @*asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete"*@>Delete</a>
                             </div>
                         </div>
 
@@ -155,15 +155,15 @@
                                         </h5>
                                     </div>
                                     <div class="align-self-center">
-                                        <a class="btn" asp-area="" asp-controller="Topic" asp-route-taskId="@task.TaskId" asp-action="RemoveTask"><i class="fa-solid fa-trash-can fa-xl"></i></a>
+                                        <a class="btn" onclick="ConfirmTaskDelete(@task.TaskId)" @*asp-area="" asp-controller="Topic" asp-route-taskId="@task.TaskId" asp-action="RemoveTask"*@><i class="fa-solid fa-trash-can fa-xl"></i></a>
                                     </div>
                                 </div>
                                 
-                                <div id="@taskDetails" class="collapse p-2" aria-labelledby="@task.TaskId"
+                                <div id="@taskDetails" class="collapse" aria-labelledby="@task.TaskId"
                                      data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                     {
-                                        <a class="text-light badge badge-info increase-size">@note.Note1</a>
+                                        <a class="text-light badge badge-info increase-size mt-2 mb-2">@note.Note1</a>
                                         @*<p>@note.Note1</p>*@
                                     }
                                 </div>
