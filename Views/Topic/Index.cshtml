@@ -18,10 +18,10 @@
 
 
             string details = "detailsOf" + topic.TopicId;
-          
+
             var data = new Dictionary<string, string>() { { "Topicid", topic.TopicId.ToString() } };
 
-            int indexForModal = topic.TopicId;
+            var modalId = "modalForTopic" + topic.TopicId.ToString();
 
             <div class="card z-depth-0 bordered text-wrap">
                 <div class="card-header @gradient" id="@topic.TopicId">
@@ -35,17 +35,17 @@
                             </button>
                         </h5>
 
-                        <button type="button" class="btn bg-transparent text-white align-baseline" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn bg-transparent text-white align-baseline" data-toggle="modal" data-target="#@modalId">
                             <i class="fa-solid fa-sm fa-pencil"></i>
                         </button>
 
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Update title:</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Update title:</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -59,7 +59,7 @@
                                             <div class="col-md-4">
                                                 <form asp-action="EditTopicPartial">
                                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                    <input type="hidden" value="@indexForModal" asp-for="Topic.TopicId" />
+                                                    <input type="hidden" value="@topic.TopicId" asp-for="Topic.TopicId" />
                                                     <div class="form-group">
                                                         <label asp-for="Topic.TopicTitle" class="control-label">Title</label>
                                                         <input asp-for="Topic.TopicTitle" class="form-control" />
