@@ -114,3 +114,7 @@ body {
     width: 3em;
     height: auto;
 }
+
+.increase-size {
+    font-size: 1rem;
+}
