@@ -3,3 +3,26 @@
 
 // Write your JavaScript code.
 
+function ConfirmTaskDelete(id) {
+    let confirmDelete = confirm("Delete task?")
+    if (confirmDelete) {
+        $.ajax({
+            url: 'Topic/RemoveTask',
+            data: { taskId: id }
+        }).done(function () {
+            location.reload()
+        });
+    }
+}
+
+function ConfirmTopicDelete(id) {
+    let confirmDelete = confirm("Delete topic?")
+    if (confirmDelete) {
+        $.ajax({
+            url: 'Topic/Delete',
+            data: { topicId: id }
+        }).done(function () {
+            location.reload()
+        })
+    }
+}

@@ -118,3 +118,7 @@ body {
 .increase-size {
     font-size: 1rem;
 }
+
+.form-control:focus {
+    background-color: linen;
+}

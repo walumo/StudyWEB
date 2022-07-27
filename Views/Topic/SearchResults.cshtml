@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@model StudyWEB.Models.ViewModel;
+﻿@model StudyWEB.Models.ViewModel;
 
 @{
     ViewData["Title"] = "Search";
@@ -20,18 +16,99 @@
             if (!topic.TopicInProgress && topic.TopicStartLearningDate != null) gradient = "bg-warning";
             if (topic.TopicIsDone == true) gradient = "bg-dark";
 
-
+            <!--ID attribute generation for topics-->
             string details = "detailsOf" + topic.TopicId;
+
+            <!--Route data for action buttons in topic menu, maybe obsolete-->
             var data = new Dictionary<string, string>() { { "Topicid", topic.TopicId.ToString() } };
+
+            <!--ID attribute generation for Edit topic modal-->
+            var modalId = "modalForTopic" + topic.TopicId.ToString();
 
             <div class="card z-depth-0 bordered">
                 <div class="card-header @gradient" id="@topic.TopicId">
-                    <h5 class="mb-0">
-                        <button class="btn" type="button" data-toggle="collapse" data-target="#@details" aria-expanded="true" aria-controls="@details">
-                            <h1 class="text-light">@topic.TopicTitle</h1>
-                            <p class="text-light">@topic.TopicDescription</p>
-                        </button>
-                    </h5>
+
+                    <!--Topic title, description and Edit-icon-link for modal-->
+                    <div class="row justify-content-between flex-nowrap">
+                        <div class="column flex-shrink-1">
+                            <h5 class="mb-0">
+                                <button class="btn text-left" type="button" data-toggle="collapse" data-target="#@details" aria-expanded="true" aria-controls="@details">
+                                    <h1 class="text-light">@topic.TopicTitle</h1>
+                                    <p class="text-light">@topic.TopicDescription</p>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div class="column">
+                            <button type="button" class="btn bg-transparent text-white align-baseline" data-toggle="modal" data-target="#@modalId">
+                                <i class="fa-solid fa-sm fa-pencil"></i>
+                            </button>
+                        </div>
+
+                        <!-- Modal Code-->
+                        <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Updating topic:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <!--Form Start-->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <form asp-action="EditTopicPartial">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <input type="hidden" value="@topic.TopicId" asp-for="Topic.TopicId" />
+                                                    <div class="form-group">
+                                                        <label asp-for="Topic.TopicTitle" class="control-label">Title</label>
+                                                        <input asp-for="Topic.TopicTitle" class="form-control" placeholder="@topic.TopicTitle" />
+                                                        <span asp-validation-for="Topic.TopicTitle" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="Topic.TopicDescription" class="control-label">Description</label>
+                                                        <input asp-for="Topic.TopicDescription" class="form-control" placeholder="@topic.TopicDescription" />
+                                                        <span asp-validation-for="Topic.TopicDescription" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="Topic.TopicEstimatedTimeToMaster" class="control-label">Estimated time (hours)</label>
+                                                        <input asp-for="Topic.TopicEstimatedTimeToMaster" class="form-control" placeholder="@topic.TopicEstimatedTimeToMaster" />
+                                                        <span asp-validation-for="Topic.TopicEstimatedTimeToMaster" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="Topic.TopicSource" class="control-label">Source</label>
+                                                        <input asp-for="Topic.TopicSource" class="form-control" placeholder="@topic.TopicSource" />
+                                                        <span asp-validation-for="Topic.TopicSource" class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label asp-for="Topic.TopicCompletionDate" class="control-label">Deadline</label>
+                                                        <input asp-for="Topic.TopicCompletionDate" class="form-control" />
+                                                        <span asp-validation-for="Topic.TopicCompletionDate" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <a asp-action="Index">Back to Topics</a>
+                                        </div>
+                                        <!--Form End-->
+
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -41,7 +118,7 @@
 
                     @if (topic.TopicIsDone == false)
                     {
-                        <!--Controls for topics-->
+                        <!--Controls for topics when topic opened-->
                         <div class="row justify-content-around m-1">
 
                             <div class="column">
@@ -50,7 +127,6 @@
 
                             <div class="column">
                                 <a class="btn btn-secondary btn-warning" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Pause">Pause</a>
-
                             </div>
 
                             <div class="column">
@@ -58,22 +134,26 @@
                             </div>
 
                             <div class="column">
-                                <a class="btn btn-secondary btn-danger" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                                <a class="btn btn-secondary btn-danger" onclick="ConfirmTopicDelete(@topic.TopicId)" @*asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete"*@>Delete</a>
                             </div>
                         </div>
 
+                        <!--Render tasks, if any-->
                         @foreach (StudyWEB.Models.Task task in Model.Tasks.Where(x => x.TopicId == topic.TopicId))
                         {
                             string taskDetails = "taskDetailsOf" + task.TaskId;
 
                             <div class="accordion" id="taskAccordion">
-                                <div class="card z-depth-0 bordered text-wrap bg-light">
-                                    <div class="card-header" id="@task.TaskId">
+                                <div class="card z-depth-0 flex-row bordered text-wrap bg-light">
+                                    <div class="card-header flex-grow-1" id="@task.TaskId">
                                         <h5 class="mb-0">
                                             <button class="btn" type="button" data-toggle="collapse" data-target="#@taskDetails" aria-expanded="true" aria-controls="@taskDetails">
                                                 <h4 class="text-dark">@task.TaskTitle</h4>
                                             </button>
                                         </h5>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <a class="btn" onclick="ConfirmTaskDelete(@task.TaskId)" @*asp-area="" asp-controller="Topic" asp-route-taskId="@task.TaskId" asp-action="RemoveTask"*@><i class="fa-solid fa-trash-can fa-xl"></i></a>
                                     </div>
                                 </div>
 
@@ -81,16 +161,23 @@
                                      data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                     {
-                                        <p>@note.Note1</p>
+                                        <a class="text-light badge badge-info increase-size mt-2 mb-2">@note.Note1</a>
+                                        @*<p>@note.Note1</p>*@
                                     }
                                 </div>
                             </div>
                         }
 
                         <div class="card-body">
-                            <div class="row justify-content-center">
-                                <h5>Deadline:</h5>
-                                <p>&nbsp;@topic.TopicCompletionDate</p>
+                            <div class="row justify-content-between m-1">
+                                <div class="column">
+                                    <p><b>Deadline:</b>&nbsp;@topic.TopicCompletionDate</p>
+                                </div>
+                                <div class="column">
+                                    <a>
+                                        <i class="align-self-center text-right fa-solid fa-add fa-lg"></i>
+                                    </a>
+                                </div>
                             </div>
 
                         </div>
@@ -105,8 +192,6 @@
                     }
                 </div>
             </div>
-         }
+        }
     </div>
 </div>
-
-
