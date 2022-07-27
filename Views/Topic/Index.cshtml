@@ -50,7 +50,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Update title:</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Updating topic:</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -58,8 +58,6 @@
                                     <div class="modal-body">
     
                                         <!--Form Start-->
-                                        <h4>Topic</h4>
-                                        <hr />
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <form asp-action="EditTopicPartial">
@@ -67,22 +65,22 @@
                                                     <input type="hidden" value="@topic.TopicId" asp-for="Topic.TopicId" />
                                                     <div class="form-group">
                                                         <label asp-for="Topic.TopicTitle" class="control-label">Title</label>
-                                                        <input asp-for="Topic.TopicTitle" class="form-control" />
+                                                        <input asp-for="Topic.TopicTitle" class="form-control" placeholder="@topic.TopicTitle" />
                                                         <span asp-validation-for="Topic.TopicTitle" class="text-danger"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label asp-for="Topic.TopicDescription" class="control-label">Description</label>
-                                                        <input asp-for="Topic.TopicDescription" class="form-control" />
+                                                        <input asp-for="Topic.TopicDescription" class="form-control" placeholder="@topic.TopicDescription" />
                                                         <span asp-validation-for="Topic.TopicDescription" class="text-danger"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label asp-for="Topic.TopicEstimatedTimeToMaster" class="control-label">Estimated time (hours)</label>
-                                                        <input asp-for="Topic.TopicEstimatedTimeToMaster" class="form-control" />
+                                                        <input asp-for="Topic.TopicEstimatedTimeToMaster" class="form-control" placeholder="@topic.TopicEstimatedTimeToMaster" />
                                                         <span asp-validation-for="Topic.TopicEstimatedTimeToMaster" class="text-danger"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label asp-for="Topic.TopicSource" class="control-label">Source</label>
-                                                        <input asp-for="Topic.TopicSource" class="form-control" />
+                                                        <input asp-for="Topic.TopicSource" class="form-control" placeholder="@topic.TopicSource"/>
                                                         <span asp-validation-for="Topic.TopicSource" class="text-danger"></span>
                                                     </div>
 
@@ -99,7 +97,7 @@
                                         </div>
 
                                         <div>
-                                            <a asp-action="Index">Back to List</a>
+                                            <a asp-action="Index">Back to Topics</a>
                                         </div>
                                         <!--Form End-->
 
