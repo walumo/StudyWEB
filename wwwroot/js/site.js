@@ -26,3 +26,7 @@ function ConfirmTopicDelete(id) {
         })
     }
 }
+
+function GetHelp() {
+    alert("This is a simple app, why don't you go and take a spin with it and see how it goes.")
+}
