@@ -161,7 +161,7 @@
                                      data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
                                     {
-                                        <a class="text-light badge badge-info increase-size mt-2 mb-2">@note.Note1</a>
+                                        <a class="text-light badge badge-info increase-size mt-2 mb-2" onclick="ConfirmDeleteNote(@note.Id)">@note.Note1</a>
                                         @*<p>@note.Note1</p>*@
                                     }
                                 </div>

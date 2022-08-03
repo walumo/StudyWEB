@@ -27,6 +27,18 @@ function ConfirmTopicDelete(id) {
     }
 }
 
+function ConfirmDeleteNote(id) {
+    let confirmDelete = confirm('Delete note?')
+    if (confirmDelete) {
+        $.ajax({
+            url: 'Topic/DeleteNote',
+            data: { noteId: id }
+        }).done(function () {
+            location.reload()
+        })
+    }
+}
+
 function GetHelp() {
     alert("This is a simple app, why don't you go and take a spin with it and see how it goes.")
 }

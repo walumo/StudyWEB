@@ -136,6 +136,16 @@ namespace StudyWEB.Controllers
             }
         } 
         
+        public async Task<IActionResult> DeleteNote(int noteId)
+        {
+            using (db)
+            {
+                db.Notes.Remove(db.Notes.Where(x => x.Id == noteId).FirstOrDefault());
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+        }
+
         public async Task<IActionResult> EditTopicPartial(ViewModel vm)
         {
 
