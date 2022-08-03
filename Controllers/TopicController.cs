@@ -169,7 +169,7 @@ namespace StudyWEB.Controllers
             using (db)
             {
                 var task = new Models.Task();
-                task.TaskTitle = vm.Task.TaskTitle;
+                task.TaskTitle = (!String.IsNullOrWhiteSpace(vm.Task.TaskTitle)) ? vm.Task.TaskTitle : "No title";
                 task.TaskPriority = vm.Task.TaskPriority;
                 task.TaskDone = vm.Task.TaskDone;
                 task.TopicId = vm.Task.TopicId;
@@ -185,7 +185,7 @@ namespace StudyWEB.Controllers
             {
                 var note = new Note();
                 note.TaskId = vm.Note.TaskId;
-                note.Note1 = vm.Note.Note1;
+                note.Note1 = (!String.IsNullOrWhiteSpace(vm.Note.Note1))? vm.Note.Note1 : "undefined";
                 db.Notes.Add(note);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
