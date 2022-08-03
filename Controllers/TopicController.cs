@@ -192,6 +192,11 @@ namespace StudyWEB.Controllers
             }
         }
 
+        public ViewResult Help()
+        {
+            return View();
+        }
+
 
     }
 }
