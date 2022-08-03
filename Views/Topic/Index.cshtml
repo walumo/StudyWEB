@@ -24,7 +24,9 @@
 
             <!--ID attribute generation for Edit topic modal-->
             var modalId = "modalForTopic" + topic.TopicId.ToString();
+            var TaskModalId = "AddTaskForTopic" + topic.TopicId.ToString();
 
+            
             <div class="card z-depth-0 bordered">
                 <div class="card-header @gradient" id="@topic.TopicId">
                     
@@ -143,6 +145,8 @@
                         {
                             string taskDetails = "taskDetailsOf" + task.TaskId;
 
+                            string taskModalId = "modalIdForTask" + task.TaskId;
+
                             <div class="accordion" id="taskAccordion">
                                 <div class="card z-depth-0 flex-row bordered text-wrap bg-light">
                                     <div class="card-header flex-grow-1" id="@task.TaskId">
@@ -173,11 +177,66 @@
                             <div class="column">
                                 <p><b>Deadline:</b>&nbsp;@topic.TopicCompletionDate</p>
                             </div>
+
+                            <!--START MODAL for new task-->
                             <div class="column">
-                                <a>
+                                <button type="button" class="btn bg-transparent align-baseline" data-toggle="modal" data-target="#@TaskModalId">
                                     <i class="align-self-center text-right fa-solid fa-add fa-lg"></i>
-                                </a>
+                                </button>
                             </div>
+
+                            <!-- Modal Code-->
+                            <div class="modal fade" id="@TaskModalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Add new task to '@topic.TopicTitle': </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <!--Form Start-->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <form asp-action="AddTask">
+                                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                        <input type="hidden" value="@topic.TopicId" asp-for="Task.TopicId" />
+                                                        <input type="hidden" value="@false" asp-for="Task.TaskDone" />
+                                                        <div class="form-group">
+                                                            <label asp-for="Task.TaskTitle" class="control-label">Title</label>
+                                                            <input asp-for="Task.TaskTitle" class="form-control" placeholder="" />
+                                                            <span asp-validation-for="Task.TaskTitle" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="Task.TaskPriority" class="control-label">Priority: </label>
+                                                            <select asp-for="Task.TaskPriority" class="form-control">
+                                                                <option value="1">High</option>
+                                                                <option value="2">Medium</option>
+                                                                <option value="3">Low</option>
+                                                            </select>
+                                                            <span asp-validation-for="Task.TaskPriority" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <a asp-action="Index">Back to Topics</a>
+                                            </div>
+                                            <!--Form End-->
+
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END MODAL-->
                         </div>
 
                     </div>

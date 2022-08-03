@@ -25,16 +25,6 @@ namespace StudyWEB.Controllers
             return View(data);
         }
 
-        public IActionResult AddTopic()
-        {
-            return View();
-        }
-
-        public IActionResult ManageTopics()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> CreateTopic(Topic topic)
         {
             using (db)
@@ -164,6 +154,21 @@ namespace StudyWEB.Controllers
                 if (vm.Topic.TopicCompletionDate != null && vm.Topic.TopicCompletionDate != topic.TopicCompletionDate && vm.Topic.TopicCompletionDate.CompareTo(DateTime.Now.AddHours(topic.TopicEstimatedTimeToMaster)) > 0)
                     topic.TopicCompletionDate = vm.Topic.TopicCompletionDate;
 
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+        }
+
+        public async Task<IActionResult> AddTask(ViewModel vm)
+        {
+            using (db)
+            {
+                var task = new Models.Task();
+                task.TaskTitle = vm.Task.TaskTitle;
+                task.TaskPriority = vm.Task.TaskPriority;
+                task.TaskDone = vm.Task.TaskDone;
+                task.TopicId = vm.Task.TopicId;
+                db.Tasks.Add(task);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
