@@ -41,6 +41,7 @@
                             </h5>
                         </div>
 
+                        <!--Modal popup form to update topic values-->
                         <div class="column">
                             <button type="button" class="btn bg-transparent text-white align-baseline" data-toggle="modal" data-target="#@modalId">
                                 <i class="fa-solid fa-sm fa-pencil"></i>
@@ -109,8 +110,8 @@
                                 </div>
                             </div>
                         </div>
+                        <!--Modal code end-->
                     </div>
-
                 </div>
 
 
@@ -120,7 +121,7 @@
 
                     @if (topic.TopicIsDone == false)
                     {
-                        <!--Controls for topics when topic opened-->
+                        <!--Controls for topics when topic opened (if topic not marked as done)-->
                         <div class="row justify-content-around m-1">
 
                             <div class="column">
@@ -130,7 +131,7 @@
                             <div class="column">
                                 <a class="btn btn-secondary btn-warning" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Pause">Pause</a>
                             </div>
-                            
+
                             <div class="column">
                                 <a class="btn btn-secondary btn-dark" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="MarkAsDone">Done</a>
                             </div>
@@ -145,7 +146,7 @@
                         {
                             string taskDetails = "taskDetailsOf" + task.TaskId;
 
-                            string taskModalId = "modalIdForTask" + task.TaskId;
+                            string AddNoteModalId = "addNoteForTaskId" + task.TaskId;
 
                             <div class="accordion" id="taskAccordion">
                                 <div class="card z-depth-0 flex-row bordered text-wrap bg-light">
@@ -156,11 +157,18 @@
                                             </button>
                                         </h5>
                                     </div>
+                                    <!--Button for adding notes to task-->
                                     <div class="align-self-center">
-                                        <a class="btn" onclick="ConfirmTaskDelete(@task.TaskId)" @*asp-area="" asp-controller="Topic" asp-route-taskId="@task.TaskId" asp-action="RemoveTask"*@><i class="fa-solid fa-trash-can fa-xl"></i></a>
+                                        <button type="button" class="btn bg-transparent align-baseline" data-toggle="modal" data-target="#@AddNoteModalId">
+                                            <i class="align-self-center text-right fa-solid fa-sticky-note fa-lg"></i>
+                                        </button>
+                                    </div>
+                                    <!--Button to delete task-->
+                                    <div class="align-self-center">
+                                        <a class="btn" onclick="ConfirmTaskDelete(@task.TaskId)"><i class="fa-solid fa-trash-can fa-xl"></i></a>
                                     </div>
                                 </div>
-                                
+
                                 <div id="@taskDetails" class="collapse" aria-labelledby="@task.TaskId"
                                      data-parent="#taskAccordion">
                                     @foreach (Note note in Model.Notes.Where(x => x.TaskId == task.TaskId))
@@ -170,27 +178,13 @@
                                     }
                                 </div>
                             </div>
-                         }
 
-                    <div class="card-body">
-                        <div class="row justify-content-between m-1">
-                            <div class="column">
-                                <p><b>Deadline:</b>&nbsp;@topic.TopicCompletionDate</p>
-                            </div>
-
-                            <!--START MODAL for new task-->
-                            <div class="column">
-                                <button type="button" class="btn bg-transparent align-baseline" data-toggle="modal" data-target="#@TaskModalId">
-                                    <i class="align-self-center text-right fa-solid fa-add fa-lg"></i>
-                                </button>
-                            </div>
-
-                            <!-- Modal Code-->
-                            <div class="modal fade" id="@TaskModalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <!--Modal code fo adding NOTES-->
+                            <div class="modal fade" id="@AddNoteModalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel">Add new task to '@topic.TopicTitle': </h5>
+                                            <h5 class="modal-title" id="editModalLabel">Add new note to '@task.TaskTitle': </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -200,23 +194,13 @@
                                             <!--Form Start-->
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <form asp-action="AddTask">
+                                                    <form asp-action="AddNote">
                                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                        <input type="hidden" value="@topic.TopicId" asp-for="Task.TopicId" />
-                                                        <input type="hidden" value="@false" asp-for="Task.TaskDone" />
+                                                        <input type="hidden" value="@task.TaskId" asp-for="Note.TaskId" />
                                                         <div class="form-group">
-                                                            <label asp-for="Task.TaskTitle" class="control-label">Title</label>
-                                                            <input asp-for="Task.TaskTitle" class="form-control" placeholder="" />
-                                                            <span asp-validation-for="Task.TaskTitle" class="text-danger"></span>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label asp-for="Task.TaskPriority" class="control-label">Priority: </label>
-                                                            <select asp-for="Task.TaskPriority" class="form-control">
-                                                                <option value="1">High</option>
-                                                                <option value="2">Medium</option>
-                                                                <option value="3">Low</option>
-                                                            </select>
-                                                            <span asp-validation-for="Task.TaskPriority" class="text-danger"></span>
+                                                            <label asp-for="Note.Note1" class="control-label">Note: </label>
+                                                            <input asp-for="Note.Note1" class="form-control" placeholder="" />
+                                                            <span asp-validation-for="Note.Note1" class="text-danger"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <input type="submit" value="Save" class="btn btn-primary" />
@@ -224,7 +208,6 @@
                                                     </form>
                                                 </div>
                                             </div>
-
                                             <div>
                                                 <a asp-action="Index">Back to Topics</a>
                                             </div>
@@ -237,17 +220,86 @@
                                 </div>
                             </div>
                             <!--END MODAL-->
-                        </div>
+                        }
 
-                    </div>
+                        <div class="card-body">
+                            <div class="row justify-content-between m-1">
+                                <div class="column">
+                                    <p><b>Deadline:</b>&nbsp;@topic.TopicCompletionDate</p>
+                                </div>
+
+                                <!--START MODAL for new task-->
+                                <div class="column">
+                                    <button type="button" class="btn bg-transparent align-baseline" data-toggle="modal" data-target="#@TaskModalId">
+                                        <i class="align-self-center text-right fa-solid fa-add fa-lg"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Modal Code for adding TASK-->
+                                <div class="modal fade" id="@TaskModalId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel">Add new task to '@topic.TopicTitle': </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <!--Form Start-->
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <form asp-action="AddTask">
+                                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                            <input type="hidden" value="@topic.TopicId" asp-for="Task.TopicId" />
+                                                            <input type="hidden" value="@false" asp-for="Task.TaskDone" />
+                                                            <div class="form-group">
+                                                                <label asp-for="Task.TaskTitle" class="control-label">Title</label>
+                                                                <input asp-for="Task.TaskTitle" class="form-control" placeholder="" />
+                                                                <span asp-validation-for="Task.TaskTitle" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="Task.TaskPriority" class="control-label">Priority: </label>
+                                                                <select asp-for="Task.TaskPriority" class="form-control">
+                                                                    <option value="1">High</option>
+                                                                    <option value="2">Medium</option>
+                                                                    <option value="3">Low</option>
+                                                                </select>
+                                                                <span asp-validation-for="Task.TaskPriority" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <a asp-action="Index">Back to Topics</a>
+                                                </div>
+                                                <!--Form End-->
+
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--END MODAL-->
+
+
+                            </div>
+
+                        </div>
                     }
                     else
                     {
-                    <div class="row justify-content-around m-1">
-                        <div class="column">
-                            <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                        <!--Topic controls if topic marked as done (only deletion)-->
+                        <div class="row justify-content-around m-1">
+                            <div class="column">
+                                <a class="btn btn-secondary btn-danger" action="delete" value="@topic.TopicId" asp-area="" asp-controller="Topic" asp-all-route-data="@data" asp-action="Delete">Delete</a>
+                            </div>
                         </div>
-                    </div>
                     }
                 </div>
             </div>

@@ -25,6 +25,11 @@ namespace StudyWEB.Controllers
             return View(data);
         }
 
+        public async Task<IActionResult> AddTopic()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> CreateTopic(Topic topic)
         {
             using (db)
@@ -169,6 +174,19 @@ namespace StudyWEB.Controllers
                 task.TaskDone = vm.Task.TaskDone;
                 task.TopicId = vm.Task.TopicId;
                 db.Tasks.Add(task);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+        }
+
+        public async Task<IActionResult> AddNote(ViewModel vm)
+        {
+            using (db)
+            {
+                var note = new Note();
+                note.TaskId = vm.Note.TaskId;
+                note.Note1 = vm.Note.Note1;
+                db.Notes.Add(note);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
