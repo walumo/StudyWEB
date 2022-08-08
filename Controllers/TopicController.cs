@@ -25,7 +25,7 @@ namespace StudyWEB.Controllers
             return View(data);
         }
 
-        public async Task<IActionResult> AddTopic()
+        public IActionResult AddTopic()
         {
             return View();
         }
